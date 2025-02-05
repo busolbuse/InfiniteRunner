@@ -78,15 +78,30 @@ public class Player : MonoBehaviour
             {
                 velocity.y += gravity * Time.fixedDeltaTime; // how much the next frame
             }
-            
 
-            if(position.y <= groundHeight)
+
+
+            //Collision CODE
+
+            Vector2 rayOrigin = new Vector2(position.x + 0.7f, position.y);//In front of Player
+            Vector2 rayDirection = Vector2.up;// speed is negative !
+            float rayDistance = velocity.y + Time.fixedDeltaTime; // frame distance
+            RaycastHit2D hit2D = Physics2D.Raycast(rayOrigin, rayDirection, rayDistance);
+            if (hit2D.collider != null)
             {
-                position.y = groundHeight; 
-                isGrounded=true;
-                
+                Ground ground = hit2D.collider.GetComponent<Ground>();
+                if(ground != null )
+                {
+                    groundHeight = ground.groundHeight; //new groundHeight
+                    position.y = groundHeight;
+                    velocity.y = 0;
+                    isGrounded=true;
+                }
             }
-        }
+            Debug.DrawRay(rayOrigin, rayDirection * rayDistance, Color.red);
+
+        }   
+        
 
         distance += velocity.x * Time.fixedDeltaTime; //distance increases
 
@@ -102,6 +117,19 @@ public class Player : MonoBehaviour
             {
                 velocity.x = maxVelocity;
             }
+
+
+            //Again Collision code
+
+            Vector2 rayOrigin = new Vector2(position.x - 0.7f, position.y);
+            Vector2 rayDirection = Vector2.up;// speed is negative !
+            float rayDistance = velocity.y + Time.fixedDeltaTime; // frame distance
+            RaycastHit2D hit2D = Physics2D.Raycast(rayOrigin, rayDirection, rayDistance);
+            if (hit2D.collider == null)
+            {
+                isGrounded = false;
+            }
+            Debug.DrawRay(rayOrigin, rayDirection * rayDistance, Color.yellow);
         }
         
         transform.position = position;

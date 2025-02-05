@@ -26,9 +26,9 @@ public class ParallaxBg : MonoBehaviour
 
         position.x -= realVelocity * Time.fixedDeltaTime; // opposite direction of the player
         
-        if(position.x <= -10 )
+        if(position.x <= -22 )
         {
-            position.x = 10;
+            position.x = 22;
         }
         
         transform.position = position;
