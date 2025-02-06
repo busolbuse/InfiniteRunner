@@ -22,7 +22,9 @@ public class Player : MonoBehaviour
     public bool isGrounded = false;
 
     public bool isHoldingJump = false; // higher to higher
-    public float maxHoldJumpTime = 0.8f; //don't jump so much
+    public float maxHoldJumpTime = 0.4f; //don't jump so much
+    public float max2HoldJumpTime = 0.4f;
+    //jump level increasing over time
     public float holdJumpTimer = 0.0f;
 
 
@@ -108,12 +110,13 @@ public class Player : MonoBehaviour
         if (isGrounded)
         {
             float velocityRatio = velocity.x / maxVelocity;
-            acceleration = maxAcceleration + (1 - velocityRatio); // go to zero
+            acceleration = maxAcceleration * (1 - velocityRatio); // go to zero
 
+            maxHoldJumpTime = max2HoldJumpTime * velocityRatio;
 
-            velocity.x += acceleration * Time.fixedDeltaTime;
-            
-            if(velocity.x >= maxVelocity)
+            velocity.x += acceleration * Time.fixedDeltaTime; //jump level increasing over time
+
+            if (velocity.x >= maxVelocity)
             {
                 velocity.x = maxVelocity;
             }
