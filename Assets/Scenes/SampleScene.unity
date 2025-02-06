@@ -397,7 +397,7 @@ Transform:
   m_GameObject: {fileID: 516591377}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
   m_LocalScale: {x: 20, y: 10, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -580,6 +580,7 @@ MonoBehaviour:
   groundHeight: 0
   groundRight: 0
   screenRight: 0
+  blockTemplate: {fileID: 6465045986365126740, guid: 391d762d1bde5e94c8571e696bb835ae, type: 3}
 --- !u!4 &781937736
 Transform:
   m_ObjectHideFlags: 0
@@ -1095,7 +1096,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1000
+  m_SortingOrder: 1001
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1134,11 +1135,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0462f053cd8394e4c857bc319331b09d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: -300
+  gravity: -100
   velocity: {x: 0, y: 0}
   jumpVelocity: 20
   maxVelocity: 100
-  maxAcceleration: 3
+  maxAcceleration: 4
   acceleration: 0
   distance: 0
   groundHeight: -3

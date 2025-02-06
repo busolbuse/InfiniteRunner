@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
@@ -83,7 +84,7 @@ public class Player : MonoBehaviour
 
 
 
-            //Collision CODE
+            //Collision on ground
 
             Vector2 rayOrigin = new Vector2(position.x + 0.7f, position.y);//In front of Player
             Vector2 rayDirection = Vector2.up;// speed is negative !
@@ -103,6 +104,8 @@ public class Player : MonoBehaviour
             Debug.DrawRay(rayOrigin, rayDirection * rayDistance, Color.red);
 
         }   
+        //collision on block
+        
         
 
         distance += velocity.x * Time.fixedDeltaTime; //distance increases
@@ -134,9 +137,37 @@ public class Player : MonoBehaviour
             }
             Debug.DrawRay(rayOrigin, rayDirection * rayDistance, Color.yellow);
         }
-        
+        //collision on block
+        Vector2 obstOrigin = new Vector2(position.x, position.y);
+        RaycastHit2D obstHitX = Physics2D.Raycast(obstOrigin, Vector2.right, velocity.x * Time.fixedDeltaTime);
+        if(obstHitX.collider != null)
+        {
+            Obstacle obstacle = obstHitX.collider.GetComponent<Obstacle>();
+            if (obstacle !=null)
+            {
+                hitObstacle(obstacle);
+            }
+        }
+
+        //for Y
+        RaycastHit2D obstHitY = Physics2D.Raycast(obstOrigin, Vector2.up, velocity.y * Time.fixedDeltaTime);
+        if (obstHitY.collider != null)
+        {
+            Obstacle obstacle = obstHitY.collider.GetComponent<Obstacle>();
+            if (obstacle != null)
+            {
+                hitObstacle(obstacle);
+            }
+        }
+
+
         transform.position = position;
     }
 
+    void hitObstacle(Obstacle obstacle)
+    {
+        Destroy(obstacle.gameObject);
+        velocity.x *= 0.7f;
+    }
 
 }
