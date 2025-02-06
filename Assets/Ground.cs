@@ -43,6 +43,13 @@ public class Ground : MonoBehaviour
         pos.x -= player.velocity.x * Time.fixedDeltaTime;
 
         groundRight =transform.position.x + (collider.size.x /2);
+
+        if(groundRight< -20) // grounds that leave the scene, it will be destroy
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         if (!didGenerateGround)
         {
             if (groundRight < screenRight)
