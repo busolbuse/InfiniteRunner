@@ -31,6 +31,8 @@ public class Player : MonoBehaviour
 
     public float jumpGroundThreshold = 1; // close enough to the ground
 
+    //Dead or not Dead :)
+    public bool isDead = false;
 
 
     void Start()
@@ -63,6 +65,19 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         Vector2 position = transform.position;
+
+
+        //DEAD
+        if (isDead)
+        {
+            return;
+        }
+        if(position.y < -20)
+        {
+            isDead = true;
+        }
+
+
         
         if(!isGrounded)
         {
@@ -95,13 +110,32 @@ public class Player : MonoBehaviour
                 Ground ground = hit2D.collider.GetComponent<Ground>();
                 if(ground != null )
                 {
-                    groundHeight = ground.groundHeight; //new groundHeight
-                    position.y = groundHeight;
-                    velocity.y = 0;
-                    isGrounded=true;
+                    if(position.y >= ground.groundHeight) { //player falling down when player hit wall.
+                        groundHeight = ground.groundHeight; //new groundHeight
+                        position.y = groundHeight;
+                        velocity.y = 0;
+                        isGrounded = true;
+                    }
+                    
                 }
             }
             Debug.DrawRay(rayOrigin, rayDirection * rayDistance, Color.red);
+
+            //Collision on WALL!!!
+
+            Vector2 wallOrigin = new Vector2(position.x, position.y);
+            RaycastHit2D wallHit = Physics2D.Raycast(wallOrigin, Vector2.right, velocity.x * Time.fixedDeltaTime);
+            if (wallHit.collider != null)
+            {
+                Ground ground = wallHit.collider.GetComponent<Ground>();
+                if (ground != null)
+                {
+                    if(position.y < ground.groundHeight)
+                    {
+                        velocity.x = 0;//forever becomes zero
+                    }
+                }
+            }
 
         }   
         //collision on block
