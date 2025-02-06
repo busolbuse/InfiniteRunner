@@ -65,10 +65,39 @@ public class Ground : MonoBehaviour
         GameObject go = Instantiate(gameObject); //reference to our game object
         BoxCollider2D goCollider = go.GetComponent<BoxCollider2D>();
         Vector2 pos;
-        //test
-        pos.x = screenRight + 12;
-        pos.y = transform.position.y;
-        go.transform.position = pos;
+
+        //max height the Player can jump
+        float h1 = player.jumpVelocity * player.maxHoldJumpTime; // hold jump
+        float t = player.jumpVelocity / - player.gravity;// calculate time for h2
+        float h2 = player.jumpVelocity * t + (0.5f * (-player.gravity * (t * t)));// natural jump, we need time
+        float maxJumpHeight = h1 + h2;//actual max jump height
+        float maxY = transform.position.y + maxJumpHeight;//max actual Y
+        maxY *= 0.7f;//buffer
+        float minY = 1;
+
+        float actualY = Random.Range(minY, maxY) ; //between minY and maxY
+
+       
         
+        pos.x = screenRight + 12;
+        pos.y = actualY - goCollider.size.y / 2;
+
+        //if (pos.y > 6f) //to make sure it doesn't come out of the camera.
+        //{
+        //    pos.y = 6f;
+        //}
+
+
+        go.transform.position = pos;
+
+        Ground goGround = go.GetComponent<Ground>();
+
+        goGround.groundHeight = go.transform.position.y + (goCollider.size.y / 2);//reset ground height
+
+        //test
+        //pos.x = screenRight + 12;
+        //pos.y = transform.position.y;
+        //go.transform.position = pos;
+
     }
 }
